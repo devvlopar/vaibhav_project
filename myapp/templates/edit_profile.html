@@ -84,9 +84,9 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="#">Add New Blog</a>
-                        <a class="collapse-item" href="#">View Blogs</a>
-                        <a class="collapse-item" href="#">My Blogs</a>
+                        <a class="collapse-item" href="{% url 'add_blog' %}">Add New Blog</a>
+                        <a class="collapse-item" href="{% url 'view_blog' %}">View Blogs</a>
+                        <a class="collapse-item" href="{% url 'my_blog' %}">My Blogs</a>
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
@@ -326,9 +326,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Pablo Escobar</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user_object.first_name}} {{user_object.last_name}}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="#">
+                                    src="{{user_object.pic.url}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -356,65 +356,82 @@
                     </ul>
 
                 </nav>
-<div class="col-lg-12">
 
-    
-    <div class="card shadow mb-4" style="border: 2px solid blue;">
-        <!-- Card Header - Dropdown -->
-        <div
-            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">74 Million A Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small>Posted on : 27th April, 2019</small> </h6>
-            <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                    aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">Dropdown Header:</div>
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+<div class="col-xl-8 order-xl-1">
+    <div class="card">
+      <div class="card-header">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">Edit profile </h3>
+            <p style="color: red;">{{msg}}</p>
+          </div>
+          <div class="col-4 text-right">
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data" >   <!-- To pass any type of file-->
+            {% csrf_token %}
+          <h6 class="heading-small text-muted mb-4">User information</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Email address</label>
+                      <input type="email" id="input-email" name="email" value="{{user_object.email}}" class="form-control" placeholder="" disabled>
+                    </div>
+                  </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-username">Mobile</label>
+                  <input type="text" id="input-username" name="mobile" class="form-control" placeholder="Mobile Number" value="{{user_object.mobile}}">
                 </div>
+              </div>
+              
             </div>
-        </div>
-        <div class="card-body">
-           Blog of Pablo  - Pablo Escobar
-        </div>
-        
-        <img src="{% static 'img/home.png' %}" alt="" width="600px" height="200px">
-        
-
-        <div class="row">
-            <div class="col-2">
-
-                <a href="#"><button class="btn btn-primary"><i class="fa fa-hand-holding-heart"></i></button></a>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-first-name">First name</label>
+                  <input type="text" id="input-first-name" name="fname" class="form-control"  placeholder="First name" value="{{user_object.first_name}}">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-last-name">Last name</label>
+                  
+                  <input type="text" id="input-last-name" name="lname" class="form-control" placeholder="Last name" value="{{user_object.last_name}}">
+                </div>
+              </div>
             </div>
-            <div class="col-4">
-                Likes : 67
-            </div>
-            <a href="#" class="btn btn-primary" >Donate</a>
-        </div>
-        <br>
-        <form action="#" method="POST">
-            
-            <input type="text" name="comment" class="form-control" placeholder="Comments ...">
+            <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Edit Picture</label>
+                    <input type="file" id="input-first-name" name="pic" class="form-control">
+                  </div>
+                </div>
+                
+              </div>
+          </div>
+          
+          <!-- Address -->
+         
+          <button type="submit" style="width: 100%;" class="btn btn-primary"><i class="fa fa-edit"></i> Edit Profile</button>
         </form>
-        <!-- Card Body -->  
+      </div>
     </div>
-    
-</div>
+  </div>
 
      <!-- Footer -->
      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; Your Website 2021</span>
-            </div>
-        </div>
-    </footer>
-    <!-- End of Footer -->
+      <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2021</span>
+          </div>
+      </div>
+  </footer>
+  <!-- End of Footer -->
 
 </div>
 <!-- End of Content Wrapper -->
@@ -431,19 +448,19 @@
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
 aria-hidden="true">
 <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-    </div>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+      </div>
+  </div>
 </div>
 </div>
 

@@ -85,8 +85,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
                         <a class="collapse-item" href="#">Add New Blog</a>
-                        <a class="collapse-item" href="#">View Blogs</a>
-                        <a class="collapse-item" href="#">My Blogs</a>
+                        <a class="collapse-item" href="{% url 'view_blog' %}">View Blogs</a>
+                        <a class="collapse-item" href="{% url 'my_blog' %}">My Blogs</a>
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
+                        <a class="collapse-item" href="{% url 'logout' %}">Logout</a>
                         <a class="collapse-item" href="register.html">Register</a>
                         <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
@@ -358,7 +358,10 @@
                 </nav>
 
 
-<h2>Total Donation : 50k USD</h2>
+<!-- <h2>Total Donation : 50k USD</h2> -->
+
+{% for single_blog in blogs %}
+
 <div class="col-lg-12">
 
     
@@ -370,7 +373,7 @@
         <!-- Card Header - Dropdown -->
         <div
             class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">74 Million Dollars A Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h6>
+            <h6 class="m-0 font-weight-bold text-primary">{{single_blog.title}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h6>
             <!-- <h6 class="m-0 font-weight-bold text-primary">74 Million Dollars A Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small>{% if blog.update %} Updated on : {{blog.update}} {% else %} Posted on : {{blog.date}} {% endif %}</small> </h6> -->
             <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -393,15 +396,20 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-           Pablo Escobar Notorious Narco  - Pablo Escobar
+           {{single_blog.user.first_name}} {{single_blog.user.last_name}}
         </div>
         
-        <img src="{% static 'img/home.png' %}" alt="" width="600px" height="200px">
+        <img src="{{single_blog.pic.url}}" alt="" width="600px" height="200px">
         
+        <br>
+    <p>{{single_blog.description}}</p>
+
     </div>
+    
     
 </div>
 
+{% endfor %}
 
      <!-- Footer -->
      <footer class="sticky-footer bg-white">
