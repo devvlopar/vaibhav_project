@@ -1,8 +1,8 @@
 import random
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
-
 from myapp.models import Blog, User
 # Create your views here.
 
@@ -10,7 +10,8 @@ from myapp.models import Blog, User
 def index(request):
     try:
         request.session['email']
-        return render(request, 'index.html')
+        user = User.objects.get(email = request.session['email'])
+        return render(request, 'index.html', {'user_object': user})
     except:
         return render(request, 'login.html')
 
@@ -70,12 +71,14 @@ def otp(request):
             return render(request, 'register.html', {'msg': 'Account Successfully created!!'})
     return render(request, 'login.html')
 
+
 def login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
         try:
-            user_object = User.objects.get(email = request.POST['email'])
+            global user
+            user_object = user = User.objects.get(email = request.POST['email'])
             if user_object.password == request.POST['password']:
                 request.session['email'] = request.POST['email']
 
@@ -128,7 +131,7 @@ def edit_profile(request):
 
 def add_blog(request):
     if request.method == 'GET':
-        return render(request, 'add_blog.html')
+        return render(request, 'add_blog.html', {'user_object':user})
     else:
         user_object = User.objects.get(email = request.session['email'])
         Blog.objects.create(
@@ -137,17 +140,26 @@ def add_blog(request):
             description = request.POST['description'],
             pic = request.FILES['pic']
         )
-        return render(request, 'add_blog.html')
+        return render(request, 'add_blog.html',  {'user_object':user})
+
 
 def my_blog(request):
     user_object = User.objects.get(email = request.session['email'])
     blogs = Blog.objects.filter(user = user_object)
-    return render(request, 'my_blog.html',{'blogs': blogs})
+    return render(request, 'my_blog.html',{'blogs': blogs, 'user_object':user})
 
 
 def view_blog(request):
     all_blogs = Blog.objects.all()
-    return render(request, 'view_blog.html', {'all_blogs': all_blogs})
+    return render(request, 'view_blog.html', {'all_blogs': all_blogs, 'user_object': user})
+
+
+def donate(request, pk):
+    #payment
+    #donation table row create
+    return HttpResponse('Done!!')
+
+
 
 # devv00973@gmail.com
 # jzjeoafbfzxmmgur

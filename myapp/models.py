@@ -1,4 +1,5 @@
 
+from email.policy import default
 from django.db import models
 
 # Create your models here.
@@ -23,3 +24,12 @@ class Blog(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class Donations(models.Model):
+    blog = models.ForeignKey(Blog, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    amount = models.FloatField(default = 0.0)
+
+    def __str__(self) -> str:
+        return self.user + ' paid to ' + self.blog
