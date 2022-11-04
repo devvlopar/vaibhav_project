@@ -13,6 +13,7 @@ urlpatterns = [
     path('my_blog', views.my_blog, name="my_blog"),
     path('view_blog', views.view_blog, name="view_blog"),
     path('donate/<int:pk>', views.donate, name="donate"),
+     path('donate/paymenthandler/', views.paymenthandler, name='paymenthandler'),
 
 
 

@@ -357,43 +357,46 @@
 
                 </nav>
 
-<div class="card shadow mb-4" style="border: 2px solid blue;">
-    <!-- Card Header - Dropdown -->
-    <div
-        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">74 Million A Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small>Posted on :27th April 2019</small> </h6>
-        <div class="dropdown no-arrow">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                aria-labelledby="dropdownMenuLink">
-                <div class="dropdown-header">Dropdown Header:</div>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-    </div>
-    <div class="card-body">
-       it is a blog - "Pablo Escobar"
-    </div>
+                <div class="card shadow mb-4" style="border: 2px solid blue;">
     
-    <img src="{% static 'img/home.png' %}" alt="" width="600px" height="200px">
-    
-
-    <div class="row">
-        <div class="col-2">
-
-        </div>
-        <div class="col-4">
-            Likes : 34
-        </div>
-    </div>
-    <!-- Card Body -->  
-</div>
+                    <!-- <div class="card shadow mb-4" style="border: 2px solid blue; background-color: black;"> -->
+                
+                 
+                        <!-- Card Header - Dropdown -->
+                        <div
+                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">{{single_blog.title}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h6>
+                            <!-- <h6 class="m-0 font-weight-bold text-primary">74 Million Dollars A Day &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small>{% if blog.update %} Updated on : {{blog.update}} {% else %} Posted on : {{blog.date}} {% endif %}</small> </h6> -->
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400 text-success" style="color: black;"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Edit Blog</a>
+                                    <a class="dropdown-item" href="#">Delete Blog</a>
+                                    <div class="dropdown-divider"></div>
+                                    
+                                    <!-- <a class="dropdown-item" href="#">Hide Blog</a> -->
+                                    
+                                    <!-- <a class="dropdown-item" href="#">UnHide Blog</a> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                           {{single_blog.user.first_name}} {{single_blog.user.last_name}}
+                        </div>
+                        
+                        <img src="{{single_blog.pic.url}}" alt="" width="600px" height="200px">
+                        
+                        <br>
+                    <p>{{single_blog.description}}</p>
+                
+                    </div>
 
 
 <center>
@@ -403,7 +406,7 @@
             <label for="">Amount </label>
             <input type="number" style="width: 50%;" name="amount" class="form-control" required>
             <br>
-            <button class="btn btn-primary">Donate</button>
+            <button class="btn btn-primary" id="donate">Donate</button>
         </form>
     </div>
 </center>
@@ -452,7 +455,8 @@
     
         <!-- Bootstrap core JavaScript-->
         <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}">
+        </script>
     
         <!-- Core plugin JavaScript-->
         <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
@@ -467,6 +471,38 @@
         <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
     
-    </body>
-    
-    </html>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+          var options = {
+             
+            // Enter the Key ID generated from the Dashboard
+            key: "{{ razorpay_merchant_key }}",
+             
+            // Amount is in currency subunits.
+            // Default currency is INR. Hence,
+            // 50000 refers to 50000 paise
+            amount: "{{ razorpay_amount }}",
+            currency: "{{ currency }}",
+             
+            // Your/store name.
+            name: "Dj Razorpay",
+             
+            // Pass the `id` obtained in the response of Step 1
+            order_id: "{{ razorpay_order_id }}",
+            callback_url: "{{ callback_url }}",
+          };
+           
+          // initialise razorpay with the options.
+          var rzp1 = new Razorpay(options);
+           
+          // add event listener to the payment button.
+          document.getElementById("donate").onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+          };
+        </script>
+      
+</body>
+
+</html>
