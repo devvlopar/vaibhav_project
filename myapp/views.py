@@ -7,6 +7,9 @@ from myapp.models import Blog, User
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
+from rest_framework.views import APIView
+from . serializers import UserSerializer
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -244,6 +247,12 @@ def paymenthandler(request):
         return HttpResponseBadRequest()
 
 
+class UserList(APIView):
+
+    def get(self, request):
+        all_data = User.objects.all()
+        serialized = UserSerializer(all_data, many = True)
+        return Response(serialized.data)
 
 
 # devv00973@gmail.com

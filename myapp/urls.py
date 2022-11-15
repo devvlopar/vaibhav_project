@@ -14,6 +14,7 @@ urlpatterns = [
     path('view_blog', views.view_blog, name="view_blog"),
     path('donate/<int:pk>', views.donate, name="donate"),
      path('donate/paymenthandler/', views.paymenthandler, name='paymenthandler'),
+     path('get_api/', views.UserList.as_view(), name='get_api')
 
 
 
